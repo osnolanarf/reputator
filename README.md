@@ -7,7 +7,7 @@
 
 El objetivo de `Reputator` es simple: comprobar la reputación de un bloque de hashes, IPs o dominios en VirusTotal y devolver los resultados en una tabla.
 
-La idea surge de la herramienta [`Malwoverview`](https://github.com/alexandreborges/malwoverview) (mucho más completa y a años luz de lo que tienes delante, ¡revísala!) simplificando a un solo sitio, VirusTotal, y que pudiera ser ejecutado sin necesidad de dependencias de `Phyton` y sin tener que levantar un sistema virtual con `Remnux` para comprobar la reputación de unos cuantos hashes.
+La idea surge de la herramienta [`Malwoverview`](https://github.com/alexandreborges/malwoverview) (mucho más completa y a años luz de lo que tienes delante, ¡revísala!) simplificando a un solo sitio, VirusTotal, y que pudiera ser ejecutado sin necesidad de dependencias de `Phyton` y sin tener que levantar un sistema virtual con [`Remnux`](https://remnux.org/) para comprobar la reputación de unos cuantos hashes.
 
 ## Funcionamiento
 
