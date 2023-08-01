@@ -100,3 +100,16 @@ Alternativa:
 setx PATH "%PATH%;C:\tu\ruta\scripts" /M
 
 ```
+
+## Historial
+
+Versión 1.0
+
+```
+Reputator es una herramienta de consulta de reputación de IOCs en VirusTotal.
+
+* Consulta una lista de hashes en VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
+* Consulta una lista de direcciones IP en VT obteniendo su veredicto, país, fecha de primer scan y fecha de último scan.
+* Consulta una lista de dominios VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
+
+```
