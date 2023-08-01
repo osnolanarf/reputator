@@ -53,11 +53,11 @@ if (-not ($h -or $i -or $d)) {
 Import-Module PSWriteColor
 
 # API de VirusTotal
-$apiKey = "250cf83b407913e3db6683c8afe4737b151f464bb217a4ccb53b530b58671b9c"
+$apiKey = "TU_API_AKI"
 
 
 # API de Hybrid Analysis
-$hybridApiKey = "mvrky3kpfb3e738bnkebztns80f850fb02m1ytqaa651e282q9e8g50m3ab9e600"
+$hybridApiKey = "TU_API_AKI"
 
 # Función para escribir texto en color rojo usando ANSI escape codes
 function Write-Red {
@@ -203,7 +203,7 @@ function Get-DomainReputation {
 
 if ($h) {
     # Ruta del archivo txt con los hashes
-    $hashFile = "C:\Users\zc01159\Downloads\hashes.txt"
+    $hashFile = "C:\RUTA\ARCHIVO\hashes.txt"
 
     # Verificar que el archivo exista
     if (Test-Path -Path $hashFile) {
@@ -257,7 +257,7 @@ if ($h) {
 
 if ($i) {
     # Ruta del archivo txt con las direcciones IP
-    $ipFile = "C:\Users\zc01159\Downloads\ips.txt"
+    $ipFile = "C:\RUTA\ARCHIVO\ips.txt"
 
     # Verificar que el archivo exista
     if (Test-Path -Path $ipFile) {
@@ -302,7 +302,7 @@ else {
 
 if ($d) {
     # Ruta del archivo txt con los dominios
-    $domainFile = "C:\Users\zc01159\Downloads\domains.txt"
+    $domainFile = "C:\RUTA\ARCHIVO\domains.txt"
 
     # Verificar que el archivo exista
     if (Test-Path -Path $domainFile) {
