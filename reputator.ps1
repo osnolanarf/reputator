@@ -1,11 +1,100 @@
+<#
+Derechos de autor (C) 2023 Francisco Alonso <fran.alonsoplaza@gmail.com>
+
+Este programa es software libre: puede redistribuirlo y/o modificarlo
+bajo los términos de la Licencia Pública General de GNU publicada por
+la Fundación para el Software Libre, ya sea la versión 3 de la Licencia,
+o (a su elección) cualquier versión posterior.
+
+Este programa se distribuye con la esperanza de que sea útil,
+pero SIN GARANTÍA ALGUNA; ni siquiera la garantía implícita de
+COMERCIABILIDAD o ADECUACIÓN PARA UN PROPÓSITO PARTICULAR. Consulte
+la Licencia Pública General de GNU para obtener más detalles.
+
+Vea la Licencia Pública General de GNU en <http://www.gnu.org/licenses/>.
+
+
+COLABORADORES
+
+Fran Alonso (propietario del proyecto)
+
+
+reputator.ps1: version 2
+
+#>
+
+
 param (
     [switch]$h, # Para revisar una lista de hashes desde un fichero txt
     [switch]$i, # Para revisar una lista de IPs desde un fichero txt
-    [switch]$d # Para revisar una lista de dominios desde un fichero txt
+    [switch]$d, # Para revisar una lista de dominios desde un fichero txt
+    [switch]$help # Para mostrar la ayuda
 )
 
+# Si se especifica la opción -help, mostrar el menú de ayuda y salir
+if ($help) {
+    Write-Output @"
+Ejecutar reputator.ps1 con una de las siguientes opciones
+
+-h para indicar que se le va a proporcionar un listado de hashes.
+-i para indicar que se le va a proporcionar un listado de direcciones IP.
+-d para indicar que se le va a proporcionar un listado de dominios.
+"@
+    return
+}
+
+# Si no se selecciona ninguna opción válida, mostrar un error y salir
+if (-not ($h -or $i -or $d)) {
+    Write-Output "Error: Debe seleccionar al menos una opcion valida. Use la opcion `-help` para mostrar la ayuda."
+    return
+}
+# Importar el módulo PSWriteColor
+
+Import-Module PSWriteColor
+
 # API de VirusTotal
-$apiKey = "000000000000000000000000000000000000000000"
+$apiKey = "250cf83b407913e3db6683c8afe4737b151f464bb217a4ccb53b530b58671b9c"
+
+
+# API de Hybrid Analysis
+$hybridApiKey = "mvrky3kpfb3e738bnkebztns80f850fb02m1ytqaa651e282q9e8g50m3ab9e600"
+
+# Función para escribir texto en color rojo usando ANSI escape codes
+function Write-Red {
+    param([string]$text)
+    $escape = [char]27
+    Write-Output "$escape[31m$text$escape[0m"
+}
+
+function Get-HashHybridAnalysis {
+    param (
+        [string]$hash
+    )
+
+    $headers = @{
+        "accept" = "application/json"
+        "user-agent" = "Falcon Sandbox"
+        "api-key" = $hybridApiKey
+    }
+    $url = "https://www.hybrid-analysis.com/api/v2/search/hash"
+    $body = @{
+        "hash" = $hash
+    }
+
+    try {
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post -Body $body
+        if ($response -and $response.Count -gt 0) {
+            $hybridMalicious = $response[0].verdict
+        } else {
+            $hybridMalicious = "N/A"
+        }
+    }
+    catch {
+        $hybridMalicious = "N/A"
+    }
+
+    return $hybridMalicious
+}
 
 function Get-FileReputation {
     param (
@@ -28,10 +117,15 @@ function Get-FileReputation {
         $hashInfo = [PSCustomObject]@{
             Muestra = "Hash_$($hashList.IndexOf($hash) + 1)"
             Hash = $hash
-            "AV Detecciones" = $positives
+            "AV DETECCIONES" = $positives
             "Fecha Primer Análisis" = if ($firstAnalysisDate.Year -eq 1970) { "N/A" } else { $firstAnalysisDate.ToString("yyyy-MM-dd HH:mm:ss") }
             "Fecha Último Análisis" = if ($lastAnalysisDate.Year -eq 1970) { "N/A" } else { $lastAnalysisDate.ToString("yyyy-MM-dd HH:mm:ss") }
+            "HYBRID-ANALYSIS" = "N/A" # Inicializar la propiedad HYBRID-ANALYSIS
         }
+
+        # Obtener resultado de Hybrid Analysis
+        $hybridMalicious = Get-HashHybridAnalysis -hash $hash
+        $hashInfo."HYBRID-ANALYSIS" = $hybridMalicious
 
         return $hashInfo
     }
@@ -95,7 +189,7 @@ function Get-DomainReputation {
         $domainInfo = [PSCustomObject]@{
             Muestra = "Domain_$($domainList.IndexOf($domain) + 1)"
             Dominio = $domain
-            "AV Detecciones" = $positives
+            "AV DETECCIONES" = $positives
             "Fecha Creación Dominio" = if ($creationDate.Year -eq 1970) { "N/A" } else { $creationDate.ToString("yyyy-MM-dd HH:mm:ss") }
             "Fecha Último Análisis" = if ($lastAnalysisDate.Year -eq 1970) { "N/A" } else { $lastAnalysisDate.ToString("yyyy-MM-dd HH:mm:ss") }
         }
@@ -107,10 +201,9 @@ function Get-DomainReputation {
     }
 }
 
-
 if ($h) {
     # Ruta del archivo txt con los hashes
-    $hashFile = "C:\tu\ruta\ficheros\hashes.txt"
+    $hashFile = "C:\Users\zc01159\Downloads\hashes.txt"
 
     # Verificar que el archivo exista
     if (Test-Path -Path $hashFile) {
@@ -120,7 +213,7 @@ if ($h) {
         # Crear una lista para almacenar los resultados
         $results = @()
 
-        # Iterar por cada hash y obtener su reputación
+        # Iterar por cada hash y obtener su reputación de VirusTotal y Hybrid Analysis
         foreach ($hash in $hashList) {
             $result = Get-FileReputation -hash $hash
             if ($result) {
@@ -129,12 +222,33 @@ if ($h) {
         }
 
         # Mostrar los resultados en una tabla con más espacio entre columnas
-        $results | Format-Table -AutoSize -Wrap `
+        $results | ForEach-Object {
+            $vtDetections = $_."AV DETECCIONES"
+            $hybridAnalysis = $_."HYBRID-ANALYSIS"
+
+            if ($vtDetections -ne "N/A") {
+                if ([int]$vtDetections -eq 0) {
+                    # Convertir el valor 0 a una cadena para que se muestre en la tabla
+                    $_."AV DETECCIONES" = "0"
+                } elseif ([int]$vtDetections -gt 0) {
+                    # Aplicar formato de color rojo a las detecciones maliciosas en VirusTotal
+                    $_."AV DETECCIONES" = (Write-Red $vtDetections)
+                }
+            }
+
+            if ($hybridAnalysis -eq "malicious") {
+                # Aplicar formato de color rojo al texto "malicious" en la columna "HYBRID-ANALYSIS"
+                $_ | Add-Member -NotePropertyName "HYBRID-ANALYSIS" -NotePropertyValue (Write-Red $hybridAnalysis) -Force
+            }
+
+            $_
+        } | Format-Table -AutoSize -Wrap `
             @{Label = "MUESTRA"; Expression = { $_.Muestra.PadRight(12) }},
             @{Label = "HASH"; Expression = { $_.Hash.PadRight(64) }},
-            @{Label = "AV DETECCIONES"; Expression = { $_."AV Detecciones".ToString().PadRight(18) }},
-            @{Label = "FECHA PRIMER ANALISIS"; Expression = { $_."Fecha Primer Análisis".PadRight(26) }},
-            @{Label = "FECHA ULTIMO ANALISIS"; Expression = { $_."Fecha Último Análisis" }}
+            @{Label = "VT DETECCIONES"; Expression = { $_."AV DETECCIONES".PadRight(25) }},
+            @{Label = "VT PRIMER ANALISIS"; Expression = { $_."Fecha Primer Análisis".PadRight(25) }},
+            @{Label = "VT ULTIMO ANALISIS"; Expression = { $_."Fecha Último Análisis".PadRight(25) }},
+            @{Label = "HYBRID-ANALYSIS"; Expression = { $_."HYBRID-ANALYSIS" }}
     }
     else {
         Write-Output "El archivo $hashFile no existe."
@@ -143,7 +257,7 @@ if ($h) {
 
 if ($i) {
     # Ruta del archivo txt con las direcciones IP
-    $ipFile = "C:\tu\ruta\ficheros\ips.txt"
+    $ipFile = "C:\Users\zc01159\Downloads\ips.txt"
 
     # Verificar que el archivo exista
     if (Test-Path -Path $ipFile) {
@@ -161,23 +275,34 @@ if ($i) {
             }
         }
 
-        # Mostrar los resultados en una tabla con más espacio entre columnas
-        $results | Format-Table -AutoSize -Wrap `
-            @{Label = "MUESTRA"; Expression = { $_.Muestra.PadRight(12) }},
-            @{Label = "IP"; Expression = { $_.IP.PadRight(20) }},
-            @{Label = "PAIS"; Expression = { $_.Pais.PadRight(10) }},
-            @{Label = "AV DETECCIONES"; Expression = { $_."AV Detecciones".ToString().PadRight(18) }},
-            @{Label = "FECHA PRIMER ANALISIS"; Expression = { $_."Fecha Primer Análisis".PadRight(26) }},
-            @{Label = "FECHA ULTIMO ANALISIS"; Expression = { $_."Fecha Último Análisis" }}
-    }
-    else {
-        Write-Output "El archivo $ipFile no existe."
-    }
+    # Mostrar los resultados en una tabla con más espacio entre columnas
+    $results | ForEach-Object {
+        $vtDetections = $_."AV DETECCIONES"
+
+        if ($vtDetections -ne "N/A") {
+            if ([int]$vtDetections -gt 0) {
+                # Aplicar formato de color rojo a las detecciones maliciosas en VirusTotal
+                $_."AV DETECCIONES" = (Write-Red $vtDetections)
+            }
+            # Dejar el valor sin formato si las detecciones son 0
+        }
+        $_
+    } | Format-Table -AutoSize -Wrap `
+        @{Label = "MUESTRA"; Expression = { $_.Muestra.PadRight(12) }},
+        @{Label = "IP"; Expression = { $_.IP.PadRight(20) }},
+        @{Label = "PAIS"; Expression = { $_.Pais.PadRight(10) }},
+        @{Label = "AV DETECCIONES"; Expression = { $_."AV DETECCIONES" }},  # Mantener el mismo formato de label que en la tabla de hashes
+        @{Label = "VT PRIMER ANALISIS"; Expression = { $_."Fecha Primer Análisis".PadRight(26) }},
+        @{Label = "VT ULTIMO ANALISIS"; Expression = { $_."Fecha Último Análisis" }}
+}
+else {
+    Write-Output "El archivo $ipFile no existe."
+}
 }
 
 if ($d) {
     # Ruta del archivo txt con los dominios
-    $domainFile = "C:\tu\ruta\ficheros\domains.txt"
+    $domainFile = "C:\Users\zc01159\Downloads\domains.txt"
 
     # Verificar que el archivo exista
     if (Test-Path -Path $domainFile) {
@@ -196,12 +321,24 @@ if ($d) {
         }
 
         # Mostrar los resultados en una tabla con más espacio entre columnas
-        $results | Format-Table -AutoSize -Wrap `
+        $results | ForEach-Object {
+            $vtDetections = $_."AV DETECCIONES"
+            if ($vtDetections -ne "N/A") {
+                if ([int]$vtDetections -eq 0) {
+                    # Convertir el valor 0 a una cadena para que se muestre en la tabla
+                    $_."AV DETECCIONES" = "0"
+                } elseif ([int]$vtDetections -gt 0) {
+                    # Aplicar formato de color rojo a las detecciones maliciosas en VirusTotal
+                    $_."AV DETECCIONES" = (Write-Red $vtDetections)
+                }
+            }
+            $_
+        } | Format-Table -AutoSize -Wrap `
             @{Label = "MUESTRA"; Expression = { $_.Muestra.PadRight(12) }},
             @{Label = "DOMINIO"; Expression = { $_.Dominio.PadRight(30) }},
-            @{Label = "AV DETECCIONES"; Expression = { $_."AV Detecciones".ToString().PadRight(18) }},
-            @{Label = "FECHA CREACION DOMINIO"; Expression = { $_."Fecha Creación Dominio".PadRight(26) }},
-            @{Label = "FECHA ULTIMO ANALISIS"; Expression = { $_."Fecha Último Análisis" }}
+            @{Label = "VT DETECCIONES"; Expression = { $_."AV DETECCIONES".PadRight(18) }},
+            @{Label = "VT CREACION DOMINIO"; Expression = { $_."Fecha Creación Dominio".PadRight(26) }},
+            @{Label = "VT ULTIMO ANALISIS"; Expression = { $_."Fecha Último Análisis" }}
     }
     else {
         Write-Output "El archivo $domainFile no existe."
