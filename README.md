@@ -10,7 +10,9 @@
 
 El objetivo de `Reputator` es simple: comprobar la reputación de un bloque de hashes, IPs o dominios en VirusTotal y devolver los resultados en una tabla.
 
-La idea surge de la herramienta [`Malwoverview`](https://github.com/alexandreborges/malwoverview) (mucho más completa y a años luz de lo que tienes delante, ¡revísala!) simplificando a un solo sitio, VirusTotal, y que pudiera ser ejecutado sin necesidad de dependencias de `Phyton` y sin tener que levantar un sistema virtual con [`Remnux`](https://remnux.org/) para comprobar la reputación de unos cuantos hashes.
+La idea original surge de la herramienta [`Malwoverview`](https://github.com/alexandreborges/malwoverview) (mucho más completa y a años luz de lo que tienes delante, ¡revísala!) simplificando a un solo sitio, VirusTotal, y que pudiera ser ejecutado sin necesidad de dependencias de `Phyton` y sin tener que levantar un sistema virtual con [`Remnux`](https://remnux.org/) para comprobar la reputación de unos cuantos hashes.
+
+Posteriormente, en la versión 2, se ha incluido el sitio [`Hybrid-Analysis`](https://www.hybrid-analysis.com/) para comprobar la reputación de los hashes, mostrándose el resultado en una nueva columna en la tabla.
 
 ## Funcionamiento
 
@@ -111,5 +113,16 @@ Reputator es una herramienta de consulta de reputación de IOCs en VirusTotal.
 * Consulta una lista de hashes en VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
 * Consulta una lista de direcciones IP en VT obteniendo su veredicto, país, fecha de primer scan y fecha de último scan.
 * Consulta una lista de dominios VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
+
+```
+Versión 2.0
+
+```
+Esta versión incluye:
+
+* Consulta de la reputación de hashes en Hybrid-Analysis.
+* Mensaje de error en caso de ejecución incorrecta.
+* Mensaje de ayuda.
+* Color para las detecciones maliciosas.
 
 ```
