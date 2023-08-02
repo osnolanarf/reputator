@@ -87,7 +87,7 @@ Domain_6     ukrainianworldcongress.info    19                 2023-06-26 00:00:
 Domain_7     marca.com                      0                  1997-03-12 05:00:00        2023-08-01 02:14:13
 ```
 
-## Acceso rápido
+## Ejecución rápida
 
 Crear una variable de entorno para ejecutar el script desde cualquier ubicación de cmd o powershell
 
