@@ -26,7 +26,8 @@ Ejecutar `reputator.ps1` con una de las siguientes opciones
 
 ## Requisitos
 
-- Disponer de una API de [`VirusTotal`](https://developers.virustotal.com/reference/getting-started)
+- Disponer de una API de [`VirusTotal`](https://developers.virustotal.com/reference/getting-started).
+- Disponer de una API de [`Hybrid-Analysis`](https://www.hybrid-analysis.com/docs/api/v2).
 - Modificar el script con la ruta donde tengamos el fichero de texto con los elementos que se quieran comprobar.
 
 ## Uso
