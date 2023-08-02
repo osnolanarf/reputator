@@ -111,16 +111,15 @@ setx PATH "%PATH%;C:\tu\ruta\scripts" /M
 
 ## Historial
 
-Versión 1.0
+Versión 2.1
 
 ```
-Reputator es una herramienta de consulta de reputación de IOCs en VirusTotal.
+Esta versión incluye:
 
-* Consulta una lista de hashes en VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
-* Consulta una lista de direcciones IP en VT obteniendo su veredicto, país, fecha de primer scan y fecha de último scan.
-* Consulta una lista de dominios VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
+* Soluciona el problema de errores cuando el hash no existe en VirusTotal
 
 ```
+
 Versión 2.0
 
 ```
@@ -133,11 +132,16 @@ Esta versión incluye:
 
 ```
 
-Versión 2.1
+Versión 1.0
 
 ```
-Esta versión incluye:
+Reputator es una herramienta de consulta de reputación de IOCs en VirusTotal.
 
-* Soluciona el problema de errores cuando el hash no existe en VirusTotal
+* Consulta una lista de hashes en VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
+* Consulta una lista de direcciones IP en VT obteniendo su veredicto, país, fecha de primer scan y fecha de último scan.
+* Consulta una lista de dominios VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
 
 ```
+
+
+
