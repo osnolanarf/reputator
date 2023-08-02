@@ -128,3 +128,12 @@ Esta versión incluye:
 * Color para las detecciones maliciosas.
 
 ```
+
+Versión 2.1
+
+```
+Esta versión incluye:
+
+* Soluciona el problema de errores cuando el hash no existe en VirusTotal
+
+```
