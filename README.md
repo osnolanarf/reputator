@@ -1,9 +1,12 @@
 # R E P U T A T O R
 
+
 ---
 
-<img alt="Static Badge" src="https://img.shields.io/badge/Code-PowerShell-blue">
 
+
+
+<img width="1000" alt="reputatorhash" src="https://github.com/cybevner/reputator/assets/59768231/dd63bc55-0298-4a6c-bb97-a4fe6aadcb5f">
 
 
 ## Descripción
@@ -43,6 +46,7 @@ Hash_3       B99D61D874728EDC0918CA0EB10EAB93D381E7367E377406E65963366C874450 0 
 Hash_4       dcf5d6debde2d07ac911a86a68167dd44b538ee31eb66a48726a5b7327a2a7cc 50                        2015-12-25 11:16:38       2015-12-28 06:25:32       N/A
 Hash_5       6f00837f83703021bc4f718a4df8a7fbdadf5fff50728dc09c050efa5259db89 59                        2020-10-21 10:30:56       2021-02-09 09:35:27       malicious
 ```
+
 
 - Comprobación de IPs.
 
