@@ -19,7 +19,7 @@ COLABORADORES
 Fran Alonso (propietario del proyecto)
 
 
-reputator.ps1: version 2
+reputator.ps1: version 2.1
 
 #>
 
