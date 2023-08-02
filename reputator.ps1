@@ -105,32 +105,55 @@ function Get-FileReputation {
         "x-apikey" = $apiKey
     }
     $url = "https://www.virustotal.com/api/v3/files/$hash"
-    $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
+    try {
+        $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Get
 
-    if ($response) {
-        $lastAnalysisStats = $response.data.attributes.last_analysis_stats
-        $positives = $lastAnalysisStats.malicious
-        $firstAnalysisDate = [System.DateTimeOffset]::FromUnixTimeSeconds($response.data.attributes.first_submission_date).DateTime
-        $lastAnalysisDate = [System.DateTimeOffset]::FromUnixTimeSeconds($response.data.attributes.last_analysis_date).DateTime
+        if ($response) {
+            $lastAnalysisStats = $response.data.attributes.last_analysis_stats
+            $positives = $lastAnalysisStats.malicious
+            $firstAnalysisDate = [System.DateTimeOffset]::FromUnixTimeSeconds($response.data.attributes.first_submission_date).DateTime
+            $lastAnalysisDate = [System.DateTimeOffset]::FromUnixTimeSeconds($response.data.attributes.last_analysis_date).DateTime
 
-        # Crear objeto personalizado con la información del hash
+            # Crear objeto personalizado con la información del hash
+            $hashInfo = [PSCustomObject]@{
+                Muestra = "Hash_$($hashList.IndexOf($hash) + 1)"
+                Hash = $hash
+                "AV DETECCIONES" = $positives
+                "Fecha Primer Análisis" = if ($firstAnalysisDate.Year -eq 1970) { "N/A" } else { $firstAnalysisDate.ToString("yyyy-MM-dd HH:mm:ss") }
+                "Fecha Último Análisis" = if ($lastAnalysisDate.Year -eq 1970) { "N/A" } else { $lastAnalysisDate.ToString("yyyy-MM-dd HH:mm:ss") }
+                "HYBRID-ANALYSIS" = "N/A" # Inicializar la propiedad HYBRID-ANALYSIS
+            }
+
+            # Obtener resultado de Hybrid Analysis
+            $hybridMalicious = Get-HashHybridAnalysis -hash $hash
+            $hashInfo."HYBRID-ANALYSIS" = $hybridMalicious
+
+            return $hashInfo
+        }
+        else {
+            # En caso de que el hash no exista, asignar "N/A" a las propiedades de VirusTotal
+            $hashInfo = [PSCustomObject]@{
+                Muestra = "Hash_$($hashList.IndexOf($hash) + 1)"
+                Hash = $hash
+                "AV DETECCIONES" = "N/A"
+                "Fecha Primer Análisis" = "N/A"
+                "Fecha Último Análisis" = "N/A"
+                "HYBRID-ANALYSIS" = "N/A" # Inicializar la propiedad HYBRID-ANALYSIS
+            }
+            return $hashInfo
+        }
+    }
+    catch {
+        # En caso de error, asignar "N/A" a las propiedades de VirusTotal
         $hashInfo = [PSCustomObject]@{
             Muestra = "Hash_$($hashList.IndexOf($hash) + 1)"
             Hash = $hash
-            "AV DETECCIONES" = $positives
-            "Fecha Primer Análisis" = if ($firstAnalysisDate.Year -eq 1970) { "N/A" } else { $firstAnalysisDate.ToString("yyyy-MM-dd HH:mm:ss") }
-            "Fecha Último Análisis" = if ($lastAnalysisDate.Year -eq 1970) { "N/A" } else { $lastAnalysisDate.ToString("yyyy-MM-dd HH:mm:ss") }
+            "AV DETECCIONES" = "N/A"
+            "Fecha Primer Análisis" = "N/A"
+            "Fecha Último Análisis" = "N/A"
             "HYBRID-ANALYSIS" = "N/A" # Inicializar la propiedad HYBRID-ANALYSIS
         }
-
-        # Obtener resultado de Hybrid Analysis
-        $hybridMalicious = Get-HashHybridAnalysis -hash $hash
-        $hashInfo."HYBRID-ANALYSIS" = $hybridMalicious
-
         return $hashInfo
-    }
-    else {
-        Write-Output "No se pudo obtener la reputación para el hash: $hash"
     }
 }
 
