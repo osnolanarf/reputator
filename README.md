@@ -126,7 +126,7 @@ Versión 2.0
 ```
 Esta versión incluye:
 
-* Consulta de la reputación de hashes en Hybrid-Analysis.
+* Consulta la reputación de hashes en Hybrid-Analysis.
 * Mensaje de error en caso de ejecución incorrecta.
 * Mensaje de ayuda.
 * Color para las detecciones maliciosas.
