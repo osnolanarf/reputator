@@ -29,6 +29,7 @@ Ejecutar `reputator.ps1` con una de las siguientes opciones
 - Disponer de una API de [`VirusTotal`](https://developers.virustotal.com/reference/getting-started).
 - Disponer de una API de [`Hybrid-Analysis`](https://www.hybrid-analysis.com/docs/api/v2).
 - Modificar el script con la ruta donde tengamos el fichero de texto con los elementos que se quieran comprobar.
+- Disponer del módulo PSWriteColor: `Install-Module -Name PSWriteColor -Force`.
 
 ## Uso
 
@@ -111,6 +112,15 @@ setx PATH "%PATH%;C:\tu\ruta\scripts" /M
 ```
 
 ## Historial
+
+Versión 2.2
+
+```
+Esta versión incluye:
+
+* Se añade una columna "VT NOMBRE" para la consulta de hashes para añadir el nombre de cada hash según VirusTotal.
+
+```
 
 Versión 2.1
 
