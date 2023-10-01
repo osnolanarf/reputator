@@ -40,13 +40,12 @@ A continuación, ejemplos de ejecución de `Reputator`:
 ```
 C:\Users\test\Desktop>powershell.exe ./reputator.ps1 -h
 
-MUESTRA      HASH                                                             VT DETECCIONES            VT PRIMER ANALISIS        VT ULTIMO ANALISIS        HYBRID-ANALYSIS
--------      ----                                                             --------------            ------------------        ------------------        ---------------
-Hash_1       00000075d77e227cdb2d386181e42f42b579eb16403143dc54cd4a3d17fc8622 55                        2015-05-15 18:42:36       2023-07-20 06:05:40       malicious
-Hash_2       0d7b9f1850db74b66b0b89af6ae89368600541f6bbfbbb2f6fed32ec44839699 62                        2015-05-30 11:00:25       2023-05-10 19:35:26       malicious
-Hash_3       B99D61D874728EDC0918CA0EB10EAB93D381E7367E377406E65963366C874450 0                         N/A                       N/A                       whitelisted
-Hash_4       dcf5d6debde2d07ac911a86a68167dd44b538ee31eb66a48726a5b7327a2a7cc 50                        2015-12-25 11:16:38       2015-12-28 06:25:32       N/A
-Hash_5       6f00837f83703021bc4f718a4df8a7fbdadf5fff50728dc09c050efa5259db89 59                        2020-10-21 10:30:56       2021-02-09 09:35:27       malicious
+MUESTRA      HASH                                                             VT NOMBRE                      VT DETECCIONES            VT PRIMER ANALISIS        VT ULTIMO ANALISIS        HYBRID-ANALYSIS
+-------      ----                                                             ---------                      --------------            ------------------        ------------------        ---------------
+Hash_1       00000075d77e227cdb2d386181e42f42b579eb16403143dc54cd4a3d17fc8622 lhgew.exe                      65                        2015-05-15 18:42:36       2023-10-01 05:22:31       malicious
+Hash_2       0d7b9f1850db74b66b0b89af6ae89368600541f6bbfbbb2f6fed32ec44839699 deoakoy.exe                    62                        2015-05-30 11:00:25       2023-05-10 19:35:26       malicious
+Hash_3       B99D61D874728EDC0918CA0EB10EAB93D381E7367E377406E65963366C874450 N/A                            N/A                       N/A                       N/A                       N/A
+Hash_4       dcf5d6debde2d07ac911a86a68167dd44b538ee31eb66a48726a5b7327a2a7cc leifoi.exe                     50                        2015-12-25 11:16:38       2015-12-28 06:25:32       N/A
 ```
 
 
