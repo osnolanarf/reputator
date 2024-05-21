@@ -23,12 +23,18 @@ Ejecutar `reputator.ps1` con una de las siguientes opciones
 - `-h` para indicar que se le va a proporcionar un listado de hashes.
 - `-i` para indicar que se le va a proporcionar un listado de direcciones IP.
 - `-d` para indicar que se le va a proporcionar un listado de dominios.
+- `-help` : Para mostrar la ayuda.
 
 ## Requisitos
 
 - Disponer de una API de [`VirusTotal`](https://developers.virustotal.com/reference/getting-started).
 - Disponer de una API de [`Hybrid-Analysis`](https://www.hybrid-analysis.com/docs/api/v2).
-- Modificar el script con la ruta donde tengamos el fichero de texto con los elementos que se quieran comprobar.
+- Modificar el script con la ruta donde tengamos el fichero de texto con los elementos que se quieran comprobar o bien indicarla en la ejecución del script. Por ejemplo:
+```powershell
+.\reputator.ps1 -h -hashFile "C:\ruta\a\hashes.txt"
+.\reputator.ps1 -i -ipFile "C:\ruta\a\ips.txt"
+.\reputator.ps1 -d -domainFile "C:\ruta\a\domains.txt"
+```
 - Disponer del módulo PSWriteColor: `Install-Module -Name PSWriteColor -Force`.
 
 ## Uso
