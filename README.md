@@ -112,6 +112,19 @@ setx PATH "%PATH%;C:\tu\ruta\scripts" /M
 
 ## Historial
 
+Versión 2.3
+
+```
+Esta versión incluye:
+
+* Se ha implementado la validación de entradas para hashes, direcciones IP y dominios antes de procesarlas.
+* Se ha añadido la funcionalidad de mostrar las detecciones en colores:
+    * Rojo para detecciones maliciosas.
+    * Verde para ausencia de detecciones.
+* Se permite la configuración de las rutas de los archivos de entrada mediante parámetros.
+
+```
+
 Versión 2.2
 
 ```
