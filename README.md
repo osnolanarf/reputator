@@ -1,5 +1,6 @@
 # R E P U T A T O R
 
+> 🇬🇧 [View this README in English](README.en.md)
 
 ---
 
