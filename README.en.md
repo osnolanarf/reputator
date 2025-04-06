@@ -46,9 +46,9 @@ Install-Module -Name PSWriteColor -Force
 Run the script by specifying the type of input and, optionally, the path to the file:
 
 ```powershell
-.eputator.ps1 -h -hashFile "C:\path\to\hashes.txt"
-.eputator.ps1 -i -ipFile "C:\path\to\ips.txt"
-.eputator.ps1 -d -domainFile "C:\path\to\domains.txt"
+reputator.ps1 -h -hashFile "C:\path\to\hashes.txt"
+reputator.ps1 -i -ipFile "C:\path\to\ips.txt"
+reputator.ps1 -d -domainFile "C:\path\to\domains.txt"
 ```
 
 ### ✅ Example – File Hash Reputation
