@@ -1,5 +1,7 @@
+<p align="center">
+  <img src="https://github.com/osnolanarf/reputator/blob/main/reputator_logo.png?raw=true" alt="REPUTATOR logo" width="600"/>
+</p>
 
-# R E P U T A T O R
 
 > 🇪🇸 [Ver este README en español](README.md)
 
