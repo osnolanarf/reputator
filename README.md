@@ -2,6 +2,11 @@
   <img src="https://github.com/osnolanarf/reputator/blob/main/reputator_logo.png?raw=true" alt="REPUTATOR logo" width="600"/>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/PowerShell-blue?style=flat-square" alt="PowerShell">
+  <img src="https://img.shields.io/badge/GPL--3.0-License-green?style=flat-square" alt="License: GPL-3.0">
+  <img src="https://img.shields.io/badge/Version-2.3-lightgrey?style=flat-square" alt="Version 2.3">
+</p>
 
 
 > 🇬🇧 [View this README in English](README.en.md)
