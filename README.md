@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/osnolanarf/reputator/blob/main/reputator_logo.png?raw=true" alt="REPUTATOR logo" width="600"/>
+  <img src="https://github.com/osnolanarf/reputator/blob/main/reputator_logo.png?raw=true" alt="REPUTATOR logo" width="300"/>
 </p>
 
 <p align="center">
