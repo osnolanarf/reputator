@@ -8,174 +8,124 @@
 
 ---
 
-
-
-
 <img width="1000" alt="reputatorhash" src="https://github.com/cybevner/reputator/assets/59768231/dd63bc55-0298-4a6c-bb97-a4fe6aadcb5f">
 
+## 🔍 Descripción
 
-## Descripción
+`Reputator` es un script en PowerShell que permite consultar la reputación de hashes, direcciones IP o dominios utilizando [`VirusTotal`](https://www.virustotal.com/) y [`Hybrid Analysis`](https://www.hybrid-analysis.com/). Muestra los resultados en una tabla en consola con colores para una interpretación rápida.
 
-El objetivo de `Reputator` es simple: comprobar la reputación de un bloque de hashes, IPs o dominios en [`VirusTotal`](https://www.virustotal.com/) y devolver los resultados en una tabla.
+Inspirado en [`Malwoverview`](https://github.com/alexandreborges/malwoverview), `Reputator` simplifica el análisis desde PowerShell, sin dependencias externas como Python ni necesidad de entornos virtuales como [`REMnux`](https://remnux.org/).
 
-La idea original surge de la herramienta [`Malwoverview`](https://github.com/alexandreborges/malwoverview) (mucho más completa y a años luz de lo que tienes delante, ¡revísala!) simplificando a un solo sitio, VirusTotal, y que pudiera ser ejecutado sin necesidad de dependencias de `Phyton` y sin tener que levantar un sistema virtual con [`Remnux`](https://remnux.org/) para comprobar la reputación de unos cuantos hashes.
+---
 
-Posteriormente, en la versión 2, se ha incluido el sitio [`Hybrid-Analysis`](https://www.hybrid-analysis.com/) para comprobar la reputación de los hashes, mostrándose el resultado en una nueva columna en la tabla.
+## ⚙️ Opciones de uso
 
-## Funcionamiento
+Ejecutar `reputator.ps1` con una de las siguientes opciones:
 
-Ejecutar `reputator.ps1` con una de las siguientes opciones
-- `-h` para indicar que se le va a proporcionar un listado de hashes.
-- `-i` para indicar que se le va a proporcionar un listado de direcciones IP.
-- `-d` para indicar que se le va a proporcionar un listado de dominios.
-- `-help` : Para mostrar la ayuda.
+- `-h` : Analizar un listado de **hashes**.
+- `-i` : Analizar un listado de **IPs**.
+- `-d` : Analizar un listado de **dominios**.
+- `-help` : Mostrar la ayuda del script.
 
-## Requisitos
+---
 
-- Disponer de una API de [`VirusTotal`](https://developers.virustotal.com/reference/getting-started).
-- Disponer de una API de [`Hybrid-Analysis`](https://www.hybrid-analysis.com/docs/api/v2).
-- Modificar el script con la ruta donde tengamos el fichero de texto con los elementos que se quieran comprobar o bien indicarla en la ejecución del script. Por ejemplo:
+## 📦 Requisitos
+
+- API key válida de [VirusTotal](https://developers.virustotal.com/reference/getting-started).
+- API key válida de [Hybrid Analysis](https://www.hybrid-analysis.com/docs/api/v2).
+- Archivo `.txt` con los indicadores a analizar.
+- Módulo PowerShell [`PSWriteColor`](https://www.powershellgallery.com/packages/PSWriteColor):
+
 ```powershell
-.\reputator.ps1 -h -hashFile "C:\ruta\a\hashes.txt"
-.\reputator.ps1 -i -ipFile "C:\ruta\a\ips.txt"
-.\reputator.ps1 -d -domainFile "C:\ruta\a\domains.txt"
-```
-- Disponer del módulo PSWriteColor: `Install-Module -Name PSWriteColor -Force`.
-
-## Uso
-
-A continuación, ejemplos de ejecución de `Reputator`:
-
-- Comprobación de hashes.
-
-```
-C:\Users\test\Desktop>powershell.exe ./reputator.ps1 -h
-
-MUESTRA      HASH                                                             VT NOMBRE                      VT DETECCIONES            VT PRIMER ANALISIS        VT ULTIMO ANALISIS        HYBRID-ANALYSIS
--------      ----                                                             ---------                      --------------            ------------------        ------------------        ---------------
-Hash_1       00000075d77e227cdb2d386181e42f42b579eb16403143dc54cd4a3d17fc8622 lhgew.exe                      65                        2015-05-15 18:42:36       2023-10-01 05:22:31       malicious
-Hash_2       0d7b9f1850db74b66b0b89af6ae89368600541f6bbfbbb2f6fed32ec44839699 deoakoy.exe                    62                        2015-05-30 11:00:25       2023-05-10 19:35:26       malicious
-Hash_3       B99D61D874728EDC0918CA0EB10EAB93D381E7367E377406E65963366C874450 N/A                            N/A                       N/A                       N/A                       N/A
-Hash_4       dcf5d6debde2d07ac911a86a68167dd44b538ee31eb66a48726a5b7327a2a7cc leifoi.exe                     50                        2015-12-25 11:16:38       2015-12-28 06:25:32       N/A
+Install-Module -Name PSWriteColor -Force
 ```
 
+---
 
-- Comprobación de IPs.
+## ▶️ Ejemplos de ejecución
 
-```
-C:\Users\test\Desktop>powershell.exe ./reputator.ps1 -i
-
-MUESTRA      IP                   PAIS       AV DETECCIONES VT PRIMER ANALISIS         VT ULTIMO ANALISIS
--------      --                   ----       -------------- ------------------         ------------------
-IP_1         45.133.5.148         AU                      0 N/A                        N/A
-IP_2         45.133.5.149         AU                      0 N/A                        2023-03-31 14:12:34
-IP_3         45.133.5.143         AU                      0 N/A                        N/A
-IP_4         45.133.5.115         AU                      0 N/A                        N/A
-IP_5         35.205.61.67         BE                      4 N/A                        2023-08-01 01:19:58
-IP_6         191.101.130.67       US                      0 N/A                        N/A
-IP_7         45.133.5.106         AU                      0 N/A                        N/A
-IP_8         45.133.5.145         AU                      0 N/A                        2023-04-05 14:57:06
-IP_9         45.133.5.147         AU                      0 N/A                        N/A
-IP_10        107.180.173.9        US                      0 N/A                        2023-07-14 13:14:28
-IP_11        23.216.147.76        US                      1 N/A                        2023-08-01 00:01:28
-
-
+```powershell
+reputator.ps1 -h -hashFile "C:\ruta\a\hashes.txt"
+reputator.ps1 -i -ipFile "C:\ruta\a\ips.txt"
+reputator.ps1 -d -domainFile "C:\ruta\a\domains.txt"
 ```
 
-- Comprobación de dominios.
+---
 
-```
-C:\Users\test\Desktop>powershell.exe ./reputator.ps1 -d
+## 🖥️ Añadir a PATH (opcional)
 
-MUESTRA      DOMINIO                        VT DETECCIONES     VT CREACION DOMINIO        VT ULTIMO ANALISIS
--------      -------                        --------------     -------------------        ------------------
-Domain_1     finformservice.com             18                 2023-06-28 00:00:00        2023-07-27 20:15:13
-Domain_2     altimata.org                   12                 2023-05-18 00:00:00        2023-07-20 15:47:36
-Domain_3     penofach.com                   12                 2023-05-18 00:00:00        2023-07-20 15:47:36
-Domain_4     bentaxworld.com                13                 2023-05-16 00:00:00        2023-07-20 18:45:13
-Domain_5     wexonlake.com                  20                 2023-05-01 00:00:00        2023-07-27 11:01:18
-Domain_6     ukrainianworldcongress.info    19                 2023-06-26 00:00:00        2023-07-31 01:10:21
-Domain_7     marca.com                      0                  1997-03-12 05:00:00        2023-08-01 02:14:13
-```
+Para ejecutar `reputator.ps1` desde cualquier terminal:
 
-## Ejecución rápida
+1. Abre "Editar variables de entorno del sistema".
+2. En "Variables del sistema", edita `Path` y añade la ruta donde está el script.
+3. Abre una nueva ventana de terminal.
 
-Crear una variable de entorno para ejecutar el script desde cualquier ubicación de cmd o powershell
-
-1. Abre el menú de Inicio y busca "Editar las variables de entorno del sistema". Haz clic en el resultado que dice "Editar las variables de entorno del sistema".
-    
-2. Se abrirá una ventana de "Propiedades del sistema". Haz clic en el botón "Variables de entorno" en la parte inferior de la ventana.
-    
-3. En la sección "Variables del sistema", busca la variable llamada "Path" y selecciónala. Luego, haz clic en el botón "Editar".
-    
-4. Aparecerá una nueva ventana llamada "Editar variable del sistema". Haz clic en "Nuevo" para agregar una nueva ruta.
-    
-5. Escribe la ruta completa del directorio que contiene `reputator.ps1`. Luego, haz clic en "Aceptar" para cerrar todas las ventanas.
-    
-6. Asegúrate de abrir una nueva ventana del símbolo del sistema (cmd) después de hacer estos cambios, ya que los cambios en las variables de entorno no se aplicarán a las ventanas de cmd ya abiertas.
-
-Alternativa:
+O desde línea de comandos:
 
 ```cmd
-setx PATH "%PATH%;C:\tu\ruta\scripts" /M
-
+setx PATH "%PATH%;C:\ruta\del\script" /M
 ```
 
-## Historial
+---
 
-Versión 2.3
+## 🧪 Salida esperada
 
-```
-Esta versión incluye:
-
-* Se ha implementado la validación de entradas para hashes, direcciones IP y dominios antes de procesarlas.
-* Se ha añadido la funcionalidad de mostrar las detecciones en colores:
-    * Rojo para detecciones maliciosas.
-    * Verde para ausencia de detecciones.
-* Se permite la configuración de las rutas de los archivos de entrada mediante parámetros.
+### Hashes
 
 ```
-
-Versión 2.2
-
-```
-Esta versión incluye:
-
-* Se añade una columna "VT NOMBRE" para la consulta de hashes para añadir el nombre de cada hash según VirusTotal.
-
+MUESTRA   HASH                                VT NOMBRE   VT DETECCIONES   VT PRIMER ANALISIS   VT ULTIMO ANALISIS   HYBRID-ANALYSIS
+Hash_1    ...                                 archivo.exe 65               2015-05-15            2023-10-01           malicious
 ```
 
-Versión 2.1
+### IPs
 
 ```
-Esta versión incluye:
-
-* Soluciona el problema de errores cuando el hash no existe en VirusTotal
-
+MUESTRA   IP             PAÍS   DETECCIONES   PRIMER ANALISIS   ÚLTIMO ANALISIS
+IP_1      45.133.5.148   AU     0             N/A                N/A
 ```
 
-Versión 2.0
+### Dominios
 
 ```
-Esta versión incluye:
-
-* Consulta la reputación de hashes en Hybrid-Analysis.
-* Mensaje de error en caso de ejecución incorrecta.
-* Mensaje de ayuda.
-* Color para las detecciones maliciosas.
-
+MUESTRA   DOMINIO              DETECCIONES   CREACIÓN           ÚLTIMO ANALISIS
+Dom_1     ejemplo.com          12            2023-06-28         2023-07-27
 ```
 
-Versión 1.0
+---
 
-```
-Reputator es una herramienta de consulta de reputación de IOCs en VirusTotal.
+## 📌 Historial de versiones
 
-* Consulta una lista de hashes en VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
-* Consulta una lista de direcciones IP en VT obteniendo su veredicto, país, fecha de primer scan y fecha de último scan.
-* Consulta una lista de dominios VT obteniendo su veredicto, fecha de primer scan y fecha de último scan.
+### v2.3
+- Validación de entradas (hashes, IPs, dominios).
+- Salida coloreada (verde/rojo).
+- Parámetros para rutas de archivo.
 
-```
+### v2.2
+- Columna `VT NOMBRE` añadida.
+
+### v2.1
+- Manejo de errores si el hash no existe en VirusTotal.
+
+### v2.0
+- Consulta a Hybrid Analysis añadida.
+
+### v1.0
+- Consultas a VirusTotal para hashes, IPs y dominios.
+
+---
+
+## 🤝 Créditos
+
+- Inspirado en [`Malwoverview`](https://github.com/alexandreborges/malwoverview)
+- Desarrollado para analistas SOC, blue team y DFIR.
+
+---
+
+## ⭐ Colabora
+
+¿Te ha resultado útil? ¡Dale una ⭐ al repositorio!
+
+Sugerencias, ideas o pull requests son bienvenidos.
 
 
 
